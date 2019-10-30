@@ -8,14 +8,14 @@ import java.util.List;
 import entities.enums.OrderStatus;
 
 public class Order {
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	
 	private Date moment;
 	private OrderStatus status;
 	
 	private List<OrderItem> items = new ArrayList<>();
 	private Client client;
-	
-	private static SimpleDateFormat sdf_c = new SimpleDateFormat("dd/MM/yyyy");
-	private static SimpleDateFormat sdf_o = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	public Order() {
 	}
@@ -71,22 +71,17 @@ public class Order {
 		
 		sb.append("ORDER SUMMARY:\n");
 		sb.append("Order moment: ");
-		sb.append(sdf_o.format(this.getMoment()) + "\n");
+		sb.append(sdf.format(moment) + "\n");
 		sb.append("Order status: ");
-		sb.append(this.getStatus() + "\n");
+		sb.append(status + "\n");
 		sb.append("Client: ");
-		sb.append(this.getClient().getName());
-		sb.append(" (" + sdf_c.format(this.getClient().getBirthDate()) + ") ");
-		sb.append("- " + this.getClient().getEmail() + "\n");
+		sb.append(client + "\n");
 		
-		for (OrderItem i : items) {
-			sb.append(i.getProduct().getName() + ", ");
-			sb.append("$" + String.format("%.2f", i.getProduct().getPrice()) + ", ");
-			sb.append("Quantity: " + i.getQuantity() + ", ");
-			sb.append("Subtotal: " + String.format("%.2f", i.subTotal()) + "\n");
+		for (OrderItem orderItem : items) {
+			sb.append(orderItem);
 		}
 		
-		sb.append("Total price: " + String.format("%.2f", this.total()));
+		sb.append("Total price: " + String.format("%.2f", total()));
 		return sb.toString();
 	}
 }
